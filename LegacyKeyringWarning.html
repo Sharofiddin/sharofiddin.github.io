@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>LegacyKeyringWarning</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Legacy keyring (trusted.gpg) warning removal"><h2 id="Legacy keyring (trusted.gpg) warning removal" class="header"><a href="#Legacy keyring (trusted.gpg) warning removal">Legacy keyring (trusted.gpg) warning removal</a></h2></div>
+<p>
+After upgrading system to Ubuntu 22.04 we can get warning when run <i> sudo apt update </i>.<br/>
+It says that we are storing our keys deprecatd trusted.gpg. </br>
+In such case, re-download this key, or extract it and save it in the 
+</p>
+<pre>
+  /usr/share/keyrings
+</pre>
+<p>
+	location by this command:
+</p>
+<pre>
+sudo curl https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmour -o /usr/share/keyrings/pgadmin4.gpg
+</pre>
+
+<p>
+In this example shown how to save key for pgadmin4, you can customize it for other keys.</br>
+After this change your apt source list, so , it should be like this for  pgadmin4:
+</p>
+<pre>
+deb [signed-by=/usr/share/keyrings/pgadmin4.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/jammy pgadmin4 main
+</pre>
+
+<p>
+After this run 
+</p>
+<pre>
+sudo apt update
+</pre>
+<p>
+<a href="index.html">index</a> -- HomePage
+</p>
+
+</body>
+</html>

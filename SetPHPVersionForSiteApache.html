@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>SetPHPVersionForSiteApache</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<p>
+If we have multiplse sites running on apache2 server and each of them using different version of php we can specify php version for particular site in apache conf file as following:
+</p>
+
+<pre bash>
+&lt;FilesMatch \.php&gt;
+  SetHandler "proxy:unix:/run/php/php8.1-fpm.sock|fcgi://localhost"
+&lt;/FilesMatch&gt;
+
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>LombokConflict</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Property not found fixing"><h2 id="Property not found fixing" class="header"><a href="#Property not found fixing">Property not found fixing</a></h2></div>
+<p>
+When using lombok with mapsturc you highly likely encounter this issue: <br/>
+<b>
+No property named "&lt;field_name&gt;" exists in source parameter(s)
+</b>
+this caused due to using lombok and mapstruct together, <br/>
+in this case you should configure lombok before mapstruct <br/>
+likeths:
+</p>
+
+<pre>
+ &lt;plugin&gt;
+                    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                    &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+                    &lt;version&gt;3.8.1&lt;/version&gt;
+                    &lt;configuration&gt;
+                        &lt;source&gt;${java.version}&lt;/source&gt;
+                        &lt;target&gt;${java.version}&lt;/target&gt;
+                        &lt;encoding&gt;${project.build.sourceEncoding}&lt;/encoding&gt;
+                        &lt;annotationProcessorPaths&gt;
+                            &lt;path&gt;
+                                &lt;groupId&gt;org.projectlombok&lt;/groupId&gt; &lt;!-- IMPORTANT - LOMBOK BEFORE MAPSTRUCT --&gt;
+                                &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+                                &lt;version&gt;${lombok.version}&lt;/version&gt;
+                            &lt;/path&gt;
+                            &lt;path&gt;
+                                &lt;groupId&gt;org.mapstruct&lt;/groupId&gt;
+                                &lt;artifactId&gt;mapstruct-processor&lt;/artifactId&gt;
+                                &lt;version&gt;${org.mapstruct.version}&lt;/version&gt;
+                            &lt;/path&gt;
+                        &lt;/annotationProcessorPaths&gt;
+                    &lt;/configuration&gt;
+                &lt;/plugin&gt;
+</pre>
+
+</body>
+</html>

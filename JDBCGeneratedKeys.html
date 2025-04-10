@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>JDBCGeneratedKeys</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="JDBC getting generated keys"><h2 id="JDBC getting generated keys" class="header"><a href="#JDBC getting generated keys">JDBC getting generated keys</a></h2></div>
+<p>
+If you use just
+</p>
+<pre>
+		ResultSet#getGeneratedKeys
+</pre>
+<p>
+	to get generated keys by insert or update (like autoincrement ids) some jdbc drivers won't return anything (like postgresql JDBC driver).</br>
+	Just add 
+</p>
+<pre>
+	RETURNING &lt;key&gt;
+</pre>
+<p>
+	at the end of your query and situation will be fixed In shaa Allah.
+	<br/>
+	<a href="index.html">index</a> -- HomePage
+</p>
+
+</body>
+</html>

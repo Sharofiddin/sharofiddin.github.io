@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>ResultSetFetchPerformance</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="ResultSet performance"><h2 id="ResultSet performance" class="header"><a href="#ResultSet performance">ResultSet performance</a></h2></div>
+
+<p>
+Results fetched by query will be transferred from DB to the Application. There are two things to consider:
+</p>
+<ul>
+<li>
+All fetched data transferred to APP at once.
+
+<li>
+DB will fetch data and sends it as rows one-by-one when <span id="ResultSet performance-next()"></span><strong id="next()">next()</strong> called.
+
+</ul>
+
+<p>
+But these methods has significant drawbacks:
+</p>
+<ul>
+<li>
+In the first case, when huge data loaded to APP performance will suffer, and there will be a lot of work for GC.
+
+<li>
+In the second case, if too many row sent one-by-one from DB to app tehe will be a lot of back-and-forth operations which painful for performance.
+
+</ul>
+
+<p>
+For these reasons JDBC drivers has <span id="ResultSet performance-setFetchSize()"></span><strong id="setFetchSize()">setFetchSize()</strong> method, it indicates the value which will be loaded from DB to app at once. When working with huge ResultSets you can increase teh fetch size if first <code>get*()</code> is slow.
+</p>
+
+<p>
+<hr>
+</p>
+
+<ul>
+<li>
+<a href="index.html">index</a> -- Home
+
+</ul>
+
+</body>
+</html>

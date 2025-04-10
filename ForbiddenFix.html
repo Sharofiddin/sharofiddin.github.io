@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>ForbiddenFix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Fixing Forbidden error in  apache server"><h2 id="Fixing Forbidden error in  apache server" class="header"><a href="#Fixing Forbidden error in  apache server">Fixing Forbidden error in  apache server</a></h2></div>
+<p>
+If you configure apache2 server on ubuntu for custom directory. Let's say <i>/home/user/my-site</i>.<br/>
+You highly likely get Forbidden error during accessing to your localhost. <br/>
+To fix this situation add following script to your <i>/etc/apache2/apache2.conf</i>
+</p>
+<pre>
+&lt;Directory /home/user/my-site&gt;
+    Options Indexes FollowSymLinks
+    AllowOverride None
+    Require all granted
+&lt;/Directory&gt;
+</pre>
+<p>
+for version = 2.4
+</p>
+
+<pre>
+ Order allow,deny
+Allow from all
+</pre>
+
+<p>
+for version = 2.2
+</p>
+
+<p>
+<a href="index.html">index</a>
+</p>
+
+</body>
+</html>

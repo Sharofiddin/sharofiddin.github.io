@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>magento2</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Magento2"><h2 id="Magento2" class="header"><a href="#Magento2">Magento2</a></h2></div>
+
+<ul>
+<li>
+Disabling 2fa for admin - 
+<pre>
+  sudo -u www-data bin/magento module:disable Magento_TwoFactorAuth 
+</pre>
+
+<li>
+Setting deploy mode - 
+<pre>
+   bin/magento deploy:mode:set production [or developer]
+</pre>
+
+<li>
+For 404 errors - <a href="https://community.magento.com/t5/Installing-Magento-2-x/Home-page-can-t-show-properly/m-p/132963/highlight/true#M6303">https://community.magento.com/t5/Installing-Magento-2-x/Home-page-can-t-show-properly/m-p/132963/highlight/true#M6303</a>
+
+<li>
+get admin uri - 
+<pre>
+    bin/magento info:adminuri
+</pre>
+
+<li>
+properly full restart after module changes
+<pre>
+    bin/magento setup:upgrade
+    bin/magento setup:di:compile
+    bin/magento setup:static-content:deploy -f
+    bin/magento cache:clean
+    bin/magento cache:flush
+    
+</pre>
+
+<li>
+directory settings - <a href="https://community.magento.com/t5/Magento-2-x-Technical-Issues/Error-save-products-Interceptor-does-not-exist/td-p/463227">https://community.magento.com/t5/Magento-2-x-Technical-Issues/Error-save-products-Interceptor-does-not-exist/td-p/463227</a>
+
+<li>
+ secure and unsecure url's must be the same for domain based installion, otherwise admin panel won't be opened :(
+
+<li>
+unlock admin 
+<pre>
+    bin/magento admin:user:unlock admin
+</pre>
+
+<li>
+payment success event <span id="Magento2-checkout_onepage_controller_success_action"></span><strong id="checkout_onepage_controller_success_action">checkout_onepage_controller_success_action</strong>
+
+</ul>
+<p>
+<hr>
+</p>
+
+<p>
+<a href="index.html">index</a> -- index
+</p>
+
+</body>
+</html>

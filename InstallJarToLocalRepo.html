@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>InstallJarToLocalRepo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Install jars for local repo"><h1 id="Install jars for local repo" class="header"><a href="#Install jars for local repo">Install jars for local repo</a></h1></div>
+<p>
+To install jars as maven dependency for only one project and you don't want it to be installed to <i>.m2</i>.<br/> Run following:
+</p>
+<pre>
+mvn deploy:deploy-file -Dfile=logmasker-log4j2-1.0.0-beta1.jar -DgroupId=com.ppopescu -DartifactId=logmasker-log4j2 -Dversion=1.0.0-beta1 -Durl=file://.
+</pre>
+<p>
+<a href="index.html">index</a> -- HomePage
+</p>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>MappingByParsing</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Mapping by parsing"><h2 id="Mapping by parsing" class="header"><a href="#Mapping by parsing">Mapping by parsing</a></h2></div>
+<p>
+In some scenarios we have to parse input objects field to map it target's field.<br/>
+Forexample, let's see this two objects
+</p>
+<pre>
+class PersonDTO{
+  private String dateOfBirth;
+	private String name;
+	...
+	}
+</pre>
+	
+<p>
+	and 
+</p>
+<pre>
+	  class Person{
+  		private String name;
+	  	private String year;
+	  	private String month;
+	  	private String day;
+		...
+		}
+</pre>
+	
+<p>
+	In this case, <i>PersonDTO</i>'s  <i>dateOfBirth</i>'s value format is <i>yyyy-MM-dd</i><br/>
+	And we should parse this in order to map <i> Person</i> class's fields (year, month, day).<br/>
+	We can use <i>@Named</i> annotation to write parser for this case:
+</p>
+<pre>
+		@Named("fromStringToYear")
+	default String fromStringToMonth(String dateOfBirth) {
+		return expiry.split("-")[0];
+	}
+</pre>
+<p>
+	and we should refer this in <i>@Mapping</i> , like this:
+</p>
+<pre>
+		@Mapping(source = "dateOfBirth", target = "year", qualifiedByName = "fromStringToYear")
+</pre>
+
+<p>
+So on, so forth. <br/>
+<a href="index.html">index</a> -- HomePage
+</p>
+
+</body>
+</html>

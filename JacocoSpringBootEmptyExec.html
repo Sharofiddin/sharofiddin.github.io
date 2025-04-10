@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>JacocoSpringBootEmptyExec</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<p>
+Once Jacoco generated 0 kb jacoc.exec file from Spring boot project. After enabling/disbaling tests I found that 
+</p>
+<pre>
+  ObjectMapper mapper = Jackson2ObjectMapperBuilder.json().build();
+</pre>
+<p>
+was preventing generation of jacoco.exec but after removing and readding it worked correctly, very starnge...
+</p>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>PgRestore</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Restoring DB from dump"><h1 id="Restoring DB from dump" class="header"><a href="#Restoring DB from dump">Restoring DB from dump</a></h1></div>
+<pre>
+pg_restore -d &lt;resdb_name&gt; &lt;dump_location&gt; -c -U &lt;user_to_restore&gt; -h &lt;destination_host&gt; -W --no-owner --role=&lt;username&gt;
+</pre>
+
+<p>
+<a href="index.html">index</a> -- HomePage
+</p>
+
+</body>
+</html>

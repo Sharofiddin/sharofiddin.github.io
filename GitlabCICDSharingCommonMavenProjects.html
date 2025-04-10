@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>GitlabCICDSharingCommonMavenProjects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Sharing commong maven projects (Gitlab CI/CD)"><h1 id="Sharing commong maven projects (Gitlab CI/CD)" class="header"><a href="#Sharing commong maven projects (Gitlab CI/CD)">Sharing commong maven projects (Gitlab CI/CD)</a></h1></div>
+<p>
+To share common libs or parent pom only maven projects we should set absolute path of gitlab runner .m2 repository for 
+</p>
+<pre>
+MAVEN_OPTS: "-Dmaven.repo.local=&lt;gitlab runner .m2 absolute path"
+</pre>
+<p>
+option.
+And don't forget to add local repo to the pom of projects that dependent to common project, like:
+</p>
+<pre>
+&lt;repositories&gt;
+		&lt;repository&gt;
+		&lt;id&gt;com.local&lt;/id&gt;
+		&lt;name&gt;Local repo&lt;/name&gt;
+		&lt;url&gt;file://${user.home}/.m2/repository&lt;/url&gt;
+		&lt;/repository&gt;
+  &lt;/repositories&gt;
+</pre>
+<p>
+Finally, include local repo in dependant project's .gitlab-ci.yml, before
+<code>mvn clean package</code>
+</p>
+<pre>
+      - mvn dependency:purge-local-repository -DmanualInclude="com.repo:my-common-repo"
+</pre>
+<p>
+<a href="index.html">index</a> -- HomePage
+</p>
+
+</body>
+</html>

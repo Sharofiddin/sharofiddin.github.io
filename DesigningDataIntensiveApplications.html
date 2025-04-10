@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<title>DesigningDataIntensiveApplications</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Overall"><h1 id="Overall" class="header"><a href="#Overall">Overall</a></h1></div>
+<p>
+Book focuses on these key concerns:
+</p>
+<ul>
+<li>
+Reliability
+
+<li>
+Scalability
+
+<li>
+Maintainability
+
+</ul>
+<p>
+Data models:
+</p>
+<ul>
+<li>
+Relational
+
+<li>
+Document
+
+<li>
+Graph
+
+</ul>
+  
+<p>
+Storage engines:
+</p>
+<ul>
+<li>
+Log structured
+
+<li>
+Page oriented
+
+</ul>
+ 
+<p>
+ Logs in general - append-only sequence of records.
+ Pros:
+</p>
+<ul>
+<li>
+Fast read(with in-memory hashmap index)/write
+
+<li>
+Recovery .No update - no possibility of mixture of old data and new data in one record.
+
+<li>
+No fragmented files if merge used.
+
+</ul>
+<p>
+Cons:
+</p>
+<ul>
+<li>
+Very large number of keys causes huge RAM consumption.
+
+<li>
+Range queries are not effective. If values for keys between <code>key10</code> and <code>key99</code> are requested for each key value will be fetched.
+
+</ul>
+<div id="Overall-Indexes"><h2 id="Indexes" class="header"><a href="#Overall-Indexes">Indexes</a></h2></div>
+<p>
+Index types:
+</p>
+<ul>
+<li>
+LSMTree(Log Structured Merge Tree)
+
+<li>
+B-Tree(Balanced Tree)
+
+</ul>
+<p>
+B-Tree:
+</p>
+<ul>
+<li>
+B-Tree uses pages (or blocks) to store keys, references and values.
+
+<li>
+WAL (Write-Ahead-Log) used for crash recovery.
+
+<li>
+Reference count in one page named <code>branching factor</code>
+
+<li>
+Abbrevating keys saves space and causes high *<span id="Overall-Indexes-branching factor"></span><strong id="branching factor">branching factor</strong>*, so fewer levels, and this makes search faster.
+
+</ul>
+<p>
+<code>Write amplification</code> - one write to database causes multiple writes.
+</p>
+
+<p>
+LSMTree vs B-Tree:
+</p>
+<ul>
+<li>
+LSMTree faster write, it has lower <code>write amplification</code> than B-Tree. When B-Tree page fill it will be splitted to two new pages, and parent page keeps references to new children. This causes higher write amplification.
+
+</ul>
+<p>
+...
+</p>
+
+<p>
+Index has key and value. Key is the thing queries search for. For example ID, or name (if indexed). But value can be :
+</p>
+<ol>
+<li>
+actual row(document in mongodb, vertex in neo4j)
+
+<li>
+reference to the row(document, vertex) stored elsewhere.
+
+</ol>
+<p>
+In second case, place that rows are stored is known as a <code>heap file</code>. Heap file is good to keep changes in one place. But when referenced heap location changed all indexes should be updated to point new location.
+If indexed row directly stored with row (first case) it named <code>clustered index</code>
+Other indexing structures:
+</p>
+<ul>
+<li>
+multi-column indexes (R-Tree).
+  ...
+
+</ul>
+<p>
+NVM - Non-volatile memory.
+</p>
+
+<div id="Replication"><h1 id="Replication" class="header"><a href="#Replication">Replication</a></h1></div>
+
+<p>
+Why we replicate data:
+</p>
+<ul>
+<li>
+To keep data geographically close to users.
+
+<li>
+To allow system to operate when some of its parts failed.
+
+<li>
+To scale out the number of machines that can serve to read queries (increase throughput)
+
+</ul>
+<p>
+** Popular replicating algorithms: **
+</p>
+<ul>
+<li>
+single-leader
+
+<li>
+multi-leader
+
+<li>
+leaderless
+
+</ul>
+<div id="Replication-Leader based replication"><h2 id="Leader based replication" class="header"><a href="#Replication-Leader based replication">Leader based replication</a></h2></div>
+
+<p>
+When we replicate database, every write should processed by every replica to avoid data inconsistency between replicas. <span id="Replication-Leader based replication-Leader based replication"></span><strong id="Leader based replication">Leader based replication</strong> or <em>master-slave replication</em> is the most common solution for it.
+It works as follows:
+</p>
+<ol>
+<li>
+One of the replicas is designated as <em>leader</em> (master/primary). Clients sends write requests to the leader. Leader first writes the new data to its local storage.
+
+<li>
+The other replicas are knows as <em>followers (read replicas, slaves, secondaries, or hot standbys)</em>. Whenever the leader writes new data to its local storage, it also sends the data change to all of its followers as part of a <em>replication log</em> or <em>change stream</em>. Each follower takes the log from the leader and updates it local copy of the DB accordingly, by applying all writes in the same order as they were processed on the leader
+
+<li>
+.
+
+</ol>
+
+</body>
+</html>

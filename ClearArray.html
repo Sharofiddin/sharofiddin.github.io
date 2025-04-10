@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>ClearArray</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Clear array"><h2 id="Clear array" class="header"><a href="#Clear array">Clear array</a></h2></div>
+<p>
+Postgresql already have <span id="Clear array-array_remove"></span><strong id="array_remove">array_remove</strong> function to remove elements from array, but this doesn't clears array, it removes elements that only equals to target.<br/>
+For exmaple, 
+</p>
+<pre>
+SELECT array_remove(ARRAY[1,2,3,2], 2);
+</pre>
+<p>
+returns {1,3}
+To clear array e.i. remove all of elements we can do this trick in pgpsql:
+lets suppose array is
+</p>
+<pre>
+arr integer[];
+</pre>
+<p>
+to clear this array, just do:
+</p>
+
+<pre>
+arr = '{}'::integer[];
+</pre>
+<p>
+<a href="index.html">index</a>
+</p>
+
+</body>
+</html>

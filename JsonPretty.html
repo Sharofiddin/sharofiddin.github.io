@@ -2,6 +2,7 @@
 <html>
 <head>
 <link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 <title>JsonPretty</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +13,7 @@
 <p>
 To pretty print jsonb in postgresql use <i>jsonb_pretty</i>:</br>
 </p>
-<pre>
+<pre sql>
 select jsonb_pretty('{"a":1, "b":2}'::jsonb);
 </pre>
 <p>

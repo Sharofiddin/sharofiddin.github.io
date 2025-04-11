@@ -3,6 +3,7 @@
 <head>
 <link rel="Stylesheet" type="text/css" href="style.css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" />
 <title>DesigningDataIntensiveApplications</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -188,9 +189,14 @@ One of the replicas is designated as <em>leader</em> (master/primary). Clients s
 The other replicas are knows as <em>followers (read replicas, slaves, secondaries, or hot standbys)</em>. Whenever the leader writes new data to its local storage, it also sends the data change to all of its followers as part of a <em>replication log</em> or <em>change stream</em>. Each follower takes the log from the leader and updates it local copy of the DB accordingly, by applying all writes in the same order as they were processed on the leader
 
 <li>
-.
+When client initiates read request it can be served by on of the standbys or leader. But, writes are only accepted on the leader. The followers are read-only from the client's point of view.
 
 </ol>
+<div id="Replication-Synchronous vs Asynchronous replication"><h2 id="Synchronous vs Asynchronous replication" class="header"><a href="#Replication-Synchronous vs Asynchronous replication">Synchronous vs Asynchronous replication</a></h2></div>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script type="text/javascript">
+    document.querySelectorAll('pre').forEach(block => hljs.highlightBlock(block));
+</script>
 </body>
 </html>

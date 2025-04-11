@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" />
+<title>VimOverAllSettingsRc</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<pre>
+
+call plug#begin('~/.vim/plugged')
+"
+"color themes
+"
+"
+
+Plug 'morhetz/gruvbox'
+Plug 'tpope/vim-vividchalk'
+Plug 'chriskempson/base16-vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'wgibbs/vim-irblack'
+Plug 'chriskempson/vim-tomorrow-theme'
+Plug 'flazz/vim-colorschemes'
+Plug 'dracula/vim', { 'name': 'dracula' }
+Plug 'git@github.com:nanotech/jellybeans.vim'
+" LSP and completion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'dense-analysis/ale'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+
+" Build Tools
+Plug 'tpope/vim-dispatch'
+
+" REST API Testing
+Plug 'diepm/vim-rest-console'
+
+" Debugging
+Plug 'puremourning/vimspector'
+
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+" Plug 'vim-syntastic/syntastic'
+Plug 'vim-airline/vim-airline'
+Plug 'ervandew/supertab'
+Plug 'junegunn/fzf', { 'do': { -&gt; fzf#install() } } 
+Plug 'junegunn/fzf.vim'
+
+" Syntax and Utilities
+Plug 'sheerun/vim-polyglot'
+Plug 'Shougo/neosnippet.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tpope/vim-surround'
+Plug 'mg979/vim-visual-multi'
+Plug 'easymotion/vim-easymotion'
+Plug 'vimwiki/vimwiki'
+call plug#end()
+syntax enable
+filetype plugin on
+set nocompatible
+set number
+set background=dark
+let g:gruvbox_contrast_dark = 'hard'
+colorscheme jellybeans
+set showmatch
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
+
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+
+" Configure LSP for Java
+let g:coc_global_extensions = ['coc-java', 'coc-yaml']
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'path_html': '/var/www/vimwiki/', 'template_path': '~/vimwiki/templates',
+      \ 'template_default': 'default',
+      \ 'template_ext': '.tpl'}]
+
+" Key mappings for LSP
+nmap &lt;silent&gt; gd &lt;Plug&gt;(coc-definition)
+nmap &lt;silent&gt; gr &lt;Plug&gt;(coc-references)
+
+" autocmd FileType java nnoremap &lt;buffer&gt; gd :LspDefinition&lt;CR&gt;
+" autocmd FileType java nnoremap &lt;buffer&gt; K :LspHover&lt;CR&gt;
+" autocmd FileType java nnoremap &lt;buffer&gt; &lt;leader&gt;rn :LspRename&lt;CR&gt;
+" autocmd FileType java nnoremap &lt;buffer&gt; &lt;leader&gt;ca :LspCodeAction&lt;CR&gt;
+
+function! VimwikiLinkConverter(link, source_wiki_file, target_html_file)
+    if a:link =~# '^local:'
+      let link_infos = vimwiki#base#resolve_link(a:link)
+      let html_link = vimwiki#path#relpath(
+                \ fnamemodify(a:source_wiki_file, ':h'), link_infos.filename)
+      let relative_link =
+                \ fnamemodify(a:target_html_file, ':h') . '/' . html_link
+      call system('cp ' . fnameescape(link_infos.filename) .
+                \ ' ' . fnameescape(relative_link))
+      return html_link
+    endif
+    return ''
+  endfunction
+	
+</pre>
+
+<p>
+<a href="index.html">index</a> -- Home
+</p>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script type="text/javascript">
+    document.querySelectorAll('pre').forEach(block => hljs.highlightBlock(block));
+</script>
+</body>
+</html>

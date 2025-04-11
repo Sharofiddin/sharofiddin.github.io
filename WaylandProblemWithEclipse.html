@@ -2,6 +2,8 @@
 <html>
 <head>
 <link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" />
 <title>WaylandProblemWithEclipse</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,5 +15,9 @@
 From 22.04 Canonical decided to make Wayland default display server protocol, but it is not working very good so far. Some icons are missing, and eclipse is not showing javadocs with devstyle plugin. To fix all these issues, after installing Ubuntu 22.04 change display server protocol to Xorg. It worked for me.
 </p>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script type="text/javascript">
+    document.querySelectorAll('pre').forEach(block => hljs.highlightBlock(block));
+</script>
 </body>
 </html>

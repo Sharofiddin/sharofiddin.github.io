@@ -2,6 +2,8 @@
 <html>
 <head>
 <link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" />
 <title>ResultSetFetchPerformance</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,7 +23,6 @@ All fetched data transferred to APP at once.
 DB will fetch data and sends it as rows one-by-one when <span id="ResultSet performance-next()"></span><strong id="next()">next()</strong> called.
 
 </ul>
-
 <p>
 But these methods has significant drawbacks:
 </p>
@@ -33,7 +34,6 @@ In the first case, when huge data loaded to APP performance will suffer, and the
 In the second case, if too many row sent one-by-one from DB to app tehe will be a lot of back-and-forth operations which painful for performance.
 
 </ul>
-
 <p>
 For these reasons JDBC drivers has <span id="ResultSet performance-setFetchSize()"></span><strong id="setFetchSize()">setFetchSize()</strong> method, it indicates the value which will be loaded from DB to app at once. When working with huge ResultSets you can increase teh fetch size if first <code>get*()</code> is slow.
 </p>
@@ -48,5 +48,9 @@ For these reasons JDBC drivers has <span id="ResultSet performance-setFetchSize(
 
 </ul>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script type="text/javascript">
+    document.querySelectorAll('pre').forEach(block => hljs.highlightBlock(block));
+</script>
 </body>
 </html>

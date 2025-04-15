@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" />
+<title>QuarkusDevServicesOIDCKeycloak</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<div id="Quarkus dev services: OIDC and keycloak"><h1 id="Quarkus dev services: OIDC and keycloak" class="header"><a href="#Quarkus dev services: OIDC and keycloak">Quarkus dev services: OIDC and keycloak</a></h1></div>
+
+<div id="Quarkus dev services: OIDC and keycloak-Keycloak container starting problem"><h2 id="Keycloak container starting problem" class="header"><a href="#Quarkus dev services: OIDC and keycloak-Keycloak container starting problem">Keycloak container starting problem</a></h2></div>
+
+<p>
+When dev service oidc enabled by:
+</p>
+
+<pre properties>
+quarkus.oidc.devservices.enabled=true
+</pre>
+
+<p>
+Quarkus won't start keycloak container. If we want to start kc container, we should remove <code>quarkus.oidc.devservices.enabled</code> and add following:
+</p>
+<pre properties>
+quarkus.keycloak.devservices.enabled=true
+</pre>
+
+<p>
+This appeared in quarkus version <code>3.21.2</code>
+<hr>
+</p>
+
+<p>
+<a href="index.html">index</a> -- Home
+</p>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script type="text/javascript">
+    document.querySelectorAll('pre').forEach(block => hljs.highlightBlock(block));
+</script>
+</body>
+</html>

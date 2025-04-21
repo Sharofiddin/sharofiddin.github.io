@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" />
+<title>AWSRDSUpgradePostgresEngine</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<pre shell>
+
+aws rds describe-db-instances | jq .DBInstances[1].DBInstanceIdentifier
+aws rds describe-db-snapshots --db-instance-identifier &lt;db_identifier&gt; | jq '.DBSnapshots | length'
+aws rds modify-db-instance --db-instance-identifier &lt;db_identifier&gt; --engine-version 16.3 --apply-immediately  --allow-major-version-upgrade --db-parameter-group-name default.postgres16
+aws rds describe-db-instances | jq  .DBInstances[2].DBInstanceIdentifier
+</pre>
+
+<p>
+<a href="index.html">index</a> -- Index
+</p>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script type="text/javascript">
+    document.querySelectorAll('pre').forEach(block => hljs.highlightBlock(block));
+</script>
+</body>
+</html>

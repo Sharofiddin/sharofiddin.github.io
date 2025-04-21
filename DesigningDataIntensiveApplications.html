@@ -194,6 +194,25 @@ When client initiates read request it can be served by on of the standbys or lea
 </ol>
 <div id="Replication-Synchronous vs Asynchronous replication"><h2 id="Synchronous vs Asynchronous replication" class="header"><a href="#Replication-Synchronous vs Asynchronous replication">Synchronous vs Asynchronous replication</a></h2></div>
 
+<p>
+  Whether replication happens synchronously or asynchronously is important detail of replicated system. In relational database it is usually configurable option; in other systems it is often hardcoded.
+Let's say we have one <span id="Replication-Synchronous vs Asynchronous replication-leader"></span><strong id="leader">leader</strong> and two <span id="Replication-Synchronous vs Asynchronous replication-replicas"></span><strong id="replicas">replicas</strong> for user management system. At some point in time, client requests <span id="Replication-Synchronous vs Asynchronous replication-the leader"></span><strong id="the leader">the leader</strong> to update some user's profile image. Request recieved by the leaeder after short time it was sent. At some point, the leader forwards data change to followers. Eventually, the leader notifies the client that the update was successfull. What happens if the leader sends update to the first replica synchronously and to the second asynchronously? The leader waits the first replica's confirmation about recieving the update successfully before notifying to the client, but no second's. 
+  Usually, replication is fast (less than a second). But there is no guarante of how long it takes. It take several minutes in some cases: when replica is recovering from failuer, network problems between nodes, OS near maximum capacity. In these cases, asynchronously replicated follower may fall behind the leader by several minutes. On the otherhand, the synchronously replicated follower will block the leader from finishing the operation.
+  Synchronous replication:
+</p>
+<pre><code>Advantages:
+</pre></code>
+<ul>
+<li>
+Up to date data with the Leader. Even, if the leader fails, all successfully written data is still available on the follower.
+    Disadvantages:
+
+<li>
+If the follower does not respond (crashed, network error,...), the write can not be processed. The leader must block all writes until the synchronous is available again.
+  For this shortcomin, it is impractical to make all followers synchronous: If one of them fallen, the whole system stops operating.
+
+</ul>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script type="text/javascript">
     document.querySelectorAll('pre').forEach(block => hljs.highlightBlock(block));

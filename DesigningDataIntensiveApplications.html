@@ -200,18 +200,45 @@ Let's say we have one <span id="Replication-Synchronous vs Asynchronous replicat
   Usually, replication is fast (less than a second). But there is no guarante of how long it takes. It take several minutes in some cases: when replica is recovering from failuer, network problems between nodes, OS near maximum capacity. In these cases, asynchronously replicated follower may fall behind the leader by several minutes. On the otherhand, the synchronously replicated follower will block the leader from finishing the operation.
   Synchronous replication:
 </p>
-<pre><code>Advantages:
-</pre></code>
+<ul>
+<li>
+Advantages:
+
 <ul>
 <li>
 Up to date data with the Leader. Even, if the leader fails, all successfully written data is still available on the follower.
-    Disadvantages:
-
-<li>
-If the follower does not respond (crashed, network error,...), the write can not be processed. The leader must block all writes until the synchronous is available again.
-  For this shortcomin, it is impractical to make all followers synchronous: If one of them fallen, the whole system stops operating.
 
 </ul>
+<li>
+Disadvantages:
+
+<ul>
+<li>
+If the follower does not respond (crashed, network error,...), the write can not be processed. The leader must block all writes until the synchronous is available again.
+  For this shortcoming, it is impractical to make all followers synchronous: If one of them fallen, the whole system stops operating. In practice: One of the followers is made synchronous. If synchronous followers fails or slows down, one of the asynchronous followers is made synchronous and we alwasy have two nodes with <em>up to date</em> data: The leader and the synchronous follower. This configuration sometimes called <em>semi-synchronous</em>.
+
+</ul>
+</ul>
+  
+<div id="Replication-Adding new followers"><h2 id="Adding new followers" class="header"><a href="#Replication-Adding new followers">Adding new followers</a></h2></div>
+
+<p>
+  Adding new followers to the cluster is not always straight forward task. We can not just copy and paste leader's data into new replica server. Because during data transfer process the leader my accept new writes. Or, the leader should be locked until new replica gets all data. But we want to do it without downtime:
+</p>
+<ol>
+<li>
+Take a consistent snapshot of the leader's database at some point in time-, if possible, without taking a lock on entire database. Most databases have thi feature, as it also required for backups.
+
+<li>
+Copy the snapshot to the new follower node.
+
+<li>
+The follower connects to the leader and requests all the data changes since snapshot was taken.
+
+<li>
+When the follower has processed the backlog of data changes since snapshot, it is called <em>caught up</em>. Now, it can continue to process data changes from the leader as they happen.
+
+</ol>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script type="text/javascript">

@@ -239,6 +239,111 @@ The follower connects to the leader and requests all the data changes since snap
 When the follower has processed the backlog of data changes since snapshot, it is called <em>caught up</em>. Now, it can continue to process data changes from the leader as they happen.
 
 </ol>
+<p>
+...
+</p>
+
+<div id="Replication-Problems with replication lag"><h2 id="Problems with replication lag" class="header"><a href="#Replication-Problems with replication lag">Problems with replication lag</a></h2></div>
+
+<ul>
+<li>
+<em>read-after-write consistency</em> == <em>read-your-writes consistency</em> - it ensures that if user reloads the page, they will always see any updates they submitted themselves, no promise about other user's update.
+
+<li>
+<em>monotonic reads</em> - let's say we have one leader and two replicas, user_1 added new comment, user_2 read this comment from replica_1, but when he refreshed page comment disappeared because this time user_2 read data from replica_2 which has not updated data yet. Monotonic reads guarantees that there is nothis kind of situation, by routing each user to exact datacenter whenever he reads data.
+
+<li>
+<em>consistent prefix reads</em> ...
+
+</ul>
+<div id="Replication-Multi-Leader replication"><h2 id="Multi-Leader replication" class="header"><a href="#Replication-Multi-Leader replication">Multi-Leader replication</a></h2></div>
+
+<p>
+  In single-leader replication if app can not connect to the leader it can not write to the database. If we have more than one leader connection problem with one leader won't stop us from writing to the database. It is called a <em>multi-leader</em> configuration. Also known as master-master or active/active replication. Each leader simultaneously acts as a follower to the other leaders.
+</p>
+
+<div id="Replication-Multi-Leader replication-Use cases for multi-leader replication"><h3 id="Use cases for multi-leader replication" class="header"><a href="#Replication-Multi-Leader replication-Use cases for multi-leader replication">Use cases for multi-leader replication</a></h3></div>
+
+<div id="Replication-Multi-Leader replication-Use cases for multi-leader replication-Multi-datacenter operation"><h4 id="Multi-datacenter operation" class="header"><a href="#Replication-Multi-Leader replication-Use cases for multi-leader replication-Multi-datacenter operation">Multi-datacenter operation</a></h4></div>
+  
+<p>
+  When we have single-leader setup with multiple datacenter, all writes go to the single leader, so any issue with leader's datacenter will stop all writes eventhough other datacenters operating normally, and synchronous replication can be serious bottleneck if sync-replica is in different datacenter from leader's. These issues of single-leader configuration dimnish advantages of multi-dataceneter setup.
+  Advantages of multi-leader:
+</p>
+<ul>
+<li>
+Performance
+
+<li>
+Tolerance of datacenter outage
+
+<li>
+Tolerance of network problems
+  Big Downside:
+
+<li>
+Concurrent update of data requires "conflict resolution".
+
+</ul>
+<div id="Replication-Multi-Leader replication-Use cases for multi-leader replication-Clients with offline operation"><h4 id="Clients with offline operation" class="header"><a href="#Replication-Multi-Leader replication-Use cases for multi-leader replication-Clients with offline operation">Clients with offline operation</a></h4></div>
+
+<p>
+  When application should work even it is disconnected from internet, multi-leader replication can be useful. Like calendar apps. Even your phone is offline you can see calendar and can mark some days for some events, when your gained access to the internet again your calendar reconsile its data with server. In this extreme case each device with your account is leader. 
+</p>
+
+<div id="Replication-Multi-Leader replication-Use cases for multi-leader replication-Collaborative editing"><h4 id="Collaborative editing" class="header"><a href="#Replication-Multi-Leader replication-Use cases for multi-leader replication-Collaborative editing">Collaborative editing</a></h4></div>
+
+<p>
+  <em>Real time collaborative editing</em> apps allow several people to edit a document simultaneously like Google Docs.
+</p>
+  
+<div id="Replication-Multi-Leader replication-Handling Write Conflicts"><h3 id="Handling Write Conflicts" class="header"><a href="#Replication-Multi-Leader replication-Handling Write Conflicts">Handling Write Conflicts</a></h3></div>
+
+<p>
+...
+</p>
+
+<div id="Replication-Multi-Leader replication-Multi-Leader Replication Topologies"><h3 id="Multi-Leader Replication Topologies" class="header"><a href="#Replication-Multi-Leader replication-Multi-Leader Replication Topologies">Multi-Leader Replication Topologies</a></h3></div>
+
+<p>
+If Multi-Leader replication only has two leaders, it is trivial topology: both of them send writes to another and receive it. But when we have more than two Leaders, we have different topologies:
+</p>
+<ul>
+<li>
+circle
+
+<li>
+star
+
+<li>
+all-to-all
+
+</ul>
+<p>
+In circle, each Leader nor recieves writes from one Leader node and sends writes (it's own and received from prior Leader) to other Leader.
+In start topology, there is one Leader node which forwards all writes from other Leaders. It can be generalized to Tree topology.
+All-to-all - each Leader sends writes to all other Leader nodes.
+</p>
+
+<p>
+Cirlce and Star topologies are more prone to Single-Point-Of-failure.
+All-to-all is fault tolerant but in ordering is complex problem in this topology.
+</p>
+
+<div id="Replication-Multi-Leader replication-Leaderless replication"><h3 id="Leaderless replication" class="header"><a href="#Replication-Multi-Leader replication-Leaderless replication">Leaderless replication</a></h3></div>
+
+<div id="Replication-Multi-Leader replication-Leaderless replication-Writing to the Database When a Node Is Down"><h4 id="Writing to the Database When a Node Is Down" class="header"><a href="#Replication-Multi-Leader replication-Leaderless replication-Writing to the Database When a Node Is Down">Writing to the Database When a Node Is Down</a></h4></div>
+<p>
+  <em>n</em> - Replication Factor: In leaderless replication the replication factor n is the number of nodes to store a replica of particular pieco of data. Total number of nodes in cluster can be greater from <em>n</em>. In this case, read and write nodes may or may not be overlapped. 
+</p>
+<div id="Replication-Multi-Leader replication-Leaderless replication-Limitations of Quorum Consistency"><h4 id="Limitations of Quorum Consistency" class="header"><a href="#Replication-Multi-Leader replication-Leaderless replication-Limitations of Quorum Consistency">Limitations of Quorum Consistency</a></h4></div>
+<p>
+ <em>Anti-entropy</em> - background process that compares data between nodes and detects and fixes inconsistencies. It is proactive process which periodically runs. In contrast, <em>read-repair</em> is reactive process only checks inconsistencies when data accessed for read. 
+</p>
+
+<div id="Replication-Multi-Leader replication-Leaderless replication-Sloppy Quorums and Hinted Handoff"><h4 id="Sloppy Quorums and Hinted Handoff" class="header"><a href="#Replication-Multi-Leader replication-Leaderless replication-Sloppy Quorums and Hinted Handoff">Sloppy Quorums and Hinted Handoff</a></h4></div>
+
+<div id="Replication-Multi-Leader replication-Leaderless replication-Detecting Concurrent Writes"><h4 id="Detecting Concurrent Writes" class="header"><a href="#Replication-Multi-Leader replication-Leaderless replication-Detecting Concurrent Writes">Detecting Concurrent Writes</a></h4></div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script type="text/javascript">

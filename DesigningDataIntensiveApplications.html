@@ -332,6 +332,10 @@ All-to-all is fault tolerant but in ordering is complex problem in this topology
 
 <div id="Replication-Multi-Leader replication-Leaderless replication"><h3 id="Leaderless replication" class="header"><a href="#Replication-Multi-Leader replication-Leaderless replication">Leaderless replication</a></h3></div>
 
+<p>
+  <em>Clients send each write to several nodes, and read from several nodes in parallel in order to detect and correct nodes with stale data.</em>
+</p>
+  
 <div id="Replication-Multi-Leader replication-Leaderless replication-Writing to the Database When a Node Is Down"><h4 id="Writing to the Database When a Node Is Down" class="header"><a href="#Replication-Multi-Leader replication-Leaderless replication-Writing to the Database When a Node Is Down">Writing to the Database When a Node Is Down</a></h4></div>
 <p>
   <em>n</em> - Replication Factor: In leaderless replication the replication factor n is the number of nodes to store a replica of particular pieco of data. Total number of nodes in cluster can be greater from <em>n</em>. In this case, read and write nodes may or may not be overlapped. 
@@ -344,6 +348,67 @@ All-to-all is fault tolerant but in ordering is complex problem in this topology
 <div id="Replication-Multi-Leader replication-Leaderless replication-Sloppy Quorums and Hinted Handoff"><h4 id="Sloppy Quorums and Hinted Handoff" class="header"><a href="#Replication-Multi-Leader replication-Leaderless replication-Sloppy Quorums and Hinted Handoff">Sloppy Quorums and Hinted Handoff</a></h4></div>
 
 <div id="Replication-Multi-Leader replication-Leaderless replication-Detecting Concurrent Writes"><h4 id="Detecting Concurrent Writes" class="header"><a href="#Replication-Multi-Leader replication-Leaderless replication-Detecting Concurrent Writes">Detecting Concurrent Writes</a></h4></div>
+
+<p>
+  In leaderless replication, recognizing what is concurrent write and what is overwrite is one of the important problems. Usually, versions are used for this task. In short, if client submits previous version in write than it is overwrite for older version, else it is concurrent writing. But, with more replicas the situation is not that simple.
+ ...
+</p>
+
+<p>
+Note: Amazon Dynamo systme is not DynamoDB. Yes, I was also confused.
+</p>
+
+
+<div id="Replication-6. Partitioning"><h2 id="6. Partitioning" class="header"><a href="#Replication-6. Partitioning">6. Partitioning</a></h2></div>
+<p>
+Partitioning or Sharding is breaking apart data into partitions.
+</p>
+
+<div id="Replication-6. Partitioning-Partitioning and Replication"><h3 id="Partitioning and Replication" class="header"><a href="#Replication-6. Partitioning-Partitioning and Replication">Partitioning and Replication</a></h3></div>
+
+<p>
+  Partitioning is counterpart of Replication. One node can contain both Leader and Follower partitions.
+</p>
+  
+<div id="Replication-6. Partitioning-Partitioning of Key-Value Data"><h3 id="Partitioning of Key-Value Data" class="header"><a href="#Replication-6. Partitioning-Partitioning of Key-Value Data">Partitioning of Key-Value Data</a></h3></div>
+
+<div id="Replication-6. Partitioning-Partitioning of Key-Value Data-Partitioning by Key Range"><h4 id="Partitioning by Key Range" class="header"><a href="#Replication-6. Partitioning-Partitioning of Key-Value Data-Partitioning by Key Range">Partitioning by Key Range</a></h4></div>
+<p>
+  Unfair partitioning - e.g. some partitions have more data or queries than others, also called <em>skewed</em>.
+...
+</p>
+<div id="Replication-6. Partitioning-Partitioning of Key-Value Data-Partitioning by Hash of Key"><h4 id="Partitioning by Hash of Key" class="header"><a href="#Replication-6. Partitioning-Partitioning of Key-Value Data-Partitioning by Hash of Key">Partitioning by Hash of Key</a></h4></div>
+<p>
+  Java's <code>Object.hashCode()</code> is not suitable for distrubuted systems, as same object can have different hash values when object is complex object. For this reason, sharded databases should use more reliable hashing algorithms, not necessarily cryptographically strong. For example: Cassandra uses Murmur3. 
+</p>
+
+<p>
+==== Skewed Workloads and Relieving Hot Spots
+  Hashing wont solve skewing workload problems fully. In social networks celebrities have a lot of subscribers so a lot of posts/replies/comments. So, as each user as its own ID and hash for this ID everytime produces some output. It will cause to skewed workloads again in nodes where data of these celebritiesproblems fully. In social networks celebrities have a lot of subscribers so a lot of posts/replies/comments. So, as each user as its own ID and hash for this ID everytime produces some output. It will cause to skewed workloads stored. One workaroun: adding random one two digits after user_id (or whatever partitioning key), but this leads to query every partition for these records in read, and also some bookkeeping required: we shouldn't do this trick for ordinary users, this also adds some overhead.
+</p>
+
+<div id="Replication-6. Partitioning-Partitioning and Secondary Indexes"><h3 id="Partitioning and Secondary Indexes" class="header"><a href="#Replication-6. Partitioning-Partitioning and Secondary Indexes">Partitioning and Secondary Indexes</a></h3></div>
+
+<p>
+  Primary indexes are not always sufficient, let's suppose we have actions table with primary key action_id, and we also have <code>user_id</code> column which we want to add index for it. Secondary index column need not to be unique. Not all partitioned datastores adopted <em>secondary indexes</em> (HBase, Voldemort). But Riak KV added it to its features. And for search servers like Solr and Elasticsearch <em>secondary indexes</em> are must have. 
+  Secondary index don't map neatly with partitions. There two approaches for partitioning databases with secondary indexes:
+</p>
+<ul>
+<li>
+document based partitioning
+
+<li>
+term-based partitioning
+
+</ul>
+<div id="Replication-6. Partitioning-Partitioning and Secondary Indexes-Partitioning secondary Indexes by Document"><h4 id="Partitioning secondary Indexes by Document" class="header"><a href="#Replication-6. Partitioning-Partitioning and Secondary Indexes-Partitioning secondary Indexes by Document">Partitioning secondary Indexes by Document</a></h4></div>
+
+
+
+
+<p>
+<a href="index.html">index</a> -- index
+</p>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script type="text/javascript">

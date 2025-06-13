@@ -403,7 +403,81 @@ term-based partitioning
 </ul>
 <div id="Replication-6. Partitioning-Partitioning and Secondary Indexes-Partitioning secondary Indexes by Document"><h4 id="Partitioning secondary Indexes by Document" class="header"><a href="#Replication-6. Partitioning-Partitioning and Secondary Indexes-Partitioning secondary Indexes by Document">Partitioning secondary Indexes by Document</a></h4></div>
 
+<p>
+  In this approach secondary indexes are local, it means each partition has its own secondary indexes and it doesn't care about other partitions. One downside of this approach: when reading we should check every partition because this approach won't guarante that records with one secondary index (for example "color:red" ) stored in one partition or exact some partitions. 
+</p>
+<pre><code>This approach to querying a partitioned database is sometimes known as scatter/gather, and it can make read queries on secondary index quite expensive.
+</pre></code>
+<div id="Replication-6. Partitioning-Partitioning and Secondary Indexes-Partitioning Secondary Indexes by Term"><h4 id="Partitioning Secondary Indexes by Term" class="header"><a href="#Replication-6. Partitioning-Partitioning and Secondary Indexes-Partitioning Secondary Indexes by Term">Partitioning Secondary Indexes by Term</a></h4></div>
 
+<p>
+  In this approach we have a global index that covers data in all partitions. Seconday index itself also should be partitioned. Read is faster than scatter/gather but writes are slover and more complex, requires distributed transactions.
+</p>
+
+<div id="Replication-6. Partitioning-Rebalancing partitions"><h3 id="Rebalancing partitions" class="header"><a href="#Replication-6. Partitioning-Rebalancing partitions">Rebalancing partitions</a></h3></div>
+
+<p>
+  Sometimes things change in database:
+</p>
+<ul>
+<li>
+We need more CPU for processing queries
+
+<li>
+We should handle huge datasets so we need more RAM
+
+<li>
+Some nodes failed so we should add new nodes for their responsibilities.
+
+</ul>
+  
+<p>
+  In these cases we should move data and requests from one node to another, and this called <em>rebalancing</em>. Rebalancing minimum requirements:
+</p>
+<ul>
+<li>
+After rebalancing, the load should be shared fairly between the nodes in the cluster.
+
+<li>
+While rebalancing is happening, the database continue accepting reads and writes.
+
+<li>
+No more data than necessary should be moved between nodes.
+
+</ul>
+<div id="Replication-6. Partitioning-Rebalancing partitions-Strategies for Rebalancing"><h4 id="Strategies for Rebalancing" class="header"><a href="#Replication-6. Partitioning-Rebalancing partitions-Strategies for Rebalancing">Strategies for Rebalancing</a></h4></div>
+
+<p>
+...
+</p>
+
+<p>
+=== Operations: Automatic or Manual Rebalancing
+</p>
+  
+<p>
+  Full automatic rebalancing mixed with automatic failure detection can be very dangerous. Because if some nodes are overloaded other nodes conclude overloaded node as dead node, and automatic rebalancing process starts to move load away from it. This puts additional load on the overloaded node, other nodes and network - resulting cascading failure which is worse.
+</p>
+
+<div id="Replication-6. Partitioning-Request Routing"><h3 id="Request Routing" class="header"><a href="#Replication-6. Partitioning-Request Routing">Request Routing</a></h3></div>
+
+<p>
+  ...
+</p>
+
+<div id="Replication-6. Partitioning-Request Routing-Parallel Query execution"><h4 id="Parallel Query execution" class="header"><a href="#Replication-6. Partitioning-Request Routing-Parallel Query execution">Parallel Query execution</a></h4></div>
+
+<p>
+  ...
+</p>
+
+<div id="Replication-6. Partitioning-Summary"><h3 id="Summary" class="header"><a href="#Replication-6. Partitioning-Summary">Summary</a></h3></div>
+
+<p>
+  ...
+</p>
+
+<div id="Replication-7. Transactions"><h2 id="7. Transactions" class="header"><a href="#Replication-7. Transactions">7. Transactions</a></h2></div>
 
 
 <p>

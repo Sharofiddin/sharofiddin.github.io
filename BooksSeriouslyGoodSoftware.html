@@ -48,6 +48,21 @@ Non-functional - how the software is? - Can be external or internal
 
 <div id="Part 1. Preliminaries-2.2. Memory requirements"><h2 id="2.2. Memory requirements" class="header"><a href="#Part 1. Preliminaries-2.2. Memory requirements">2.2. Memory requirements</a></h2></div>
 
+<p>
+  Three factors render the exact size of an object dependent on the architecture and even on the JDK vendor:
+</p>
+<ul>
+<li>
+Reference size
+
+<li>
+Object headers
+
+<li>
+Padding
+
+</ul>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script type="text/javascript">
     document.querySelectorAll('pre').forEach(block => hljs.highlightBlock(block));

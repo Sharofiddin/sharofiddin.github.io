@@ -4,20 +4,22 @@
 <link rel="Stylesheet" type="text/css" href="style.css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" />
-<title>WebLinks</title>
+<title>CurlScripts</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
-<p>
-<a href="https://t.me/sadovaja_feya">https://t.me/sadovaja_feya</a>
-<a href="http://185.121.1.171:8000/sr128">http://185.121.1.171:8000/sr128</a>
-</p>
+<ul>
+<li>
+Download images from web page:
+<pre>
+	   curl -s https://iiau.uz/oz | grep -Eo 'src="[^"]+\.jpg' | awk -F '"' '{print $2}' | xargs -n 1 wget
+</pre>
 
-
+</ul>
 <p>
-<a href="index.html">index</a> - Home
+<a href="index.html">index</a> -- Home
 </p>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>

@@ -4,20 +4,32 @@
 <link rel="Stylesheet" type="text/css" href="style.css">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" />
-<title>WebLinks</title>
+<title>Nmap</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
-<p>
-<a href="https://t.me/sadovaja_feya">https://t.me/sadovaja_feya</a>
-<a href="http://185.121.1.171:8000/sr128">http://185.121.1.171:8000/sr128</a>
-</p>
+<ul>
+<li>
+Advanced Nmap Recon + Grep Filtering + Banner Fingerprinting
 
+</ul>
+  
+<pre shell>
+sudo nmap -n -Pn -sS -sV -p80 --open --script=banner -T5 192.168.7.0/24 -oG - | grep 'open' | grep -v 'tcpwrapped'
+</pre>
+<ul>
+<li>
+Try replacing -p80 with -p- for full port sweep
 
+<li>
+Add --script=http-title or --script=http-headers to pull juicy intel
+	 Original from X @TheMsterDoctor1
+
+</ul>
 <p>
-<a href="index.html">index</a> - Home
+<a href="index.html">index</a> -- Home
 </p>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
